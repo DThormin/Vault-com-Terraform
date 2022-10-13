@@ -74,7 +74,7 @@ variable "docs_api_id" {
   default = "name"
 }
 
-variable "bex_bucket_id" {
+variable "name_bucket_pid" {
   default = "name-xxxxxxxxxxxxxx-dev"
 }
 
