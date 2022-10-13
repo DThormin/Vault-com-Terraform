@@ -1,77 +1,49 @@
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "3.5.0"
-    }
-  }
-}
+ 
+resource "google_sql_database_instance" "db_instance" {
+#  project = data.google_project.project.project_id
+  name = var.db_name
+  region           = var.region
+  database_version = "POSTGRES_11"
+#  password = var.db_password
+ # deletion_protection = false
 
-provider "google" {
-  credentials = file("credentials.json")
-  project = "automacao-stage"
-  region  = "us-central1"
-  zone    = "us-central1-c"
-}
+    settings {
+        availability_type = "ZONAL"
+        tier      = var.db_instance_type
+        disk_size = "10"
+        disk_type = "PD_SSD"
 
-#Vault integração
+        ip_configuration {
+          ipv4_enabled    = true
+#          private_network = data.google_compute_network.network.id
+     
+#          authorized_networks {
+#            name = "contractweb"
+#            value = data.google_compute_address.contractweb_public_ip.address
+#          }
 
-provider "vault" {
-	address = "http://0.0.0.0:8200/"
-	token = "hvs.5zqLqOVSkxxxxxxl1dgE7yqV"
-  #VAULT_ADDR = "http://0.0.0.0:8200/"
-	#VAULT_TOKEN = "root"
-}
+#          authorized_networks {
+#            name = "veronica"
+#           value = "187.122.76.69/32"
+#          }
+        }
 
-resource "vault_mount" "kvv1" {
-  path        = "kvv1"
-  type        = "kv"
-  options     = { version = "1" }
-  description = "KV Version 1 secret engine mount"
-}
-
-resource "vault_kv_secret" "secret" {
-  path = "${vault_mount.kvv1.path}/secret"
-  data_json = jsonencode(
-  {
-    zip = "zap",
-    foo = "bar"
-  }
-  )
-}
-
-data "vault_kv_secret" "secret_data" {
-  path = vault_kv_secret.secret.path
-}
-
-#recurso ec2 gcp
-
-
-
-resource "google_compute_instance" "primeiravm" {
-  name         = "test"
-  machine_type = "e2-micro"
-  zone         = "us-central1-c"
-
+        backup_configuration {
+#          transaction_log_retention_days = 3
+          enabled            = true
+          start_time         = "02:00"
   
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-11"
+ #       backup_retention_settings {
+ #           retained_backups = 1
+ #         }
+        } 
+        
+        location_preference {
+          zone = var.zone
+        }     
     }
-  }
 
-   network_interface {
-    network = "default"
-
-    access_config {
-      // Ephemeral public IP
-    }
-  }
-
-
-  metadata_startup_script = "echo hi > /test.txt"
-
-
+#  depends_on = [ google_service_networking_connection.private_vpc_connection,
+#                 google_compute_global_address.private_ip_address
+#               ]
 }
-
-
