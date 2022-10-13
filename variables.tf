@@ -47,41 +47,41 @@ variable "db_name" {
 variable "db_password" {
 
   sensitive = true
-  default = "gL8Bpajqzo3LhEs5"
+  default = "gL8xxxxxxs5"
 }
 
 variable "db_socket" {
 
   sensitive = true
-  default = "10.169.192.3"
+  default = "10.100.192.3"
 }
 
 variable "docs_download" {
-  default = "https://automacao-api-gateway-1hmr8gdl.uc.gateway.dev/files/"
+  default = "https://automacao-xxxxxxxxxxxxxx.uc.gateway.dev/files/"
 }
 
 variable "docs_upload" {
-  default = "https://automacao-api-gateway-1hmr8gdl.uc.gateway.dev/files"
+  default = "https://automacao-xxxxxxxxxxxxxx.uc.gateway.dev/files"
 }
 
 variable "docs_api_secret" {
 
   sensitive = true
-  default = "AIzaSyB7X3hrwPI4ppJV91IVWR2fDioT-ZqgMUA"
+  default = "AIzaSyB7xxxxxxxxxxxxxxVWR2fDioT-ZqgMUA"
 }
 
 variable "docs_api_id" {
-  default = "bex-up"
+  default = "name"
 }
 
 variable "bex_bucket_id" {
-  default = "bexup-employees-documents-dev"
+  default = "name-xxxxxxxxxxxxxx-dev"
 }
 
 #variável de endereço e acesso do vault
 variable "vault_address" {
-  default = "http://34.171.0.51:8200"
-  #description = "http://34.171.0.51:8200"
+  default = "http://34.0.0.0:8200"
+  #description = "http://34.0.0.0:8200"
   #type = string
 }
 
@@ -94,5 +94,5 @@ variable "vault_address" {
 #}
 
 #variable "vault_token" {
-#  default = "hvs.QJYS7r4m79jNXCngnftkBylM"
+#  default = "hvs.QJxxxxxxxxxxnftkBylM"
 #}
